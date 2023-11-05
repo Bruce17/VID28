@@ -29,6 +29,14 @@
 MotorVID28 motor(360*3*4, true, 9, 10, 11);
 MotorVID28 motor2(360*3*4, true, 5, 6, 3);
 
+#ifndef IS_ESP
+#undef HALL_SENSOR
+#define HALL_SENSOR A3
+#else
+#undef HALL_SENSOR
+#define HALL_SENSOR A0
+#endif
+
 
 void calibrate(MotorVID28 motor) {
   unsigned long now;
@@ -39,7 +47,7 @@ void calibrate(MotorVID28 motor) {
  start_max=4319;
  end_max=0;
   for(int i=0; i<4320; i++) {
-    val=analogRead(A3);
+    val=analogRead(HALL_SENSOR);
     Serial.println(val);
     if (val>max) {
       max=val;
@@ -77,9 +85,11 @@ void setup() {
   Serial.print(4*360*3);
   Serial.println(".");
 
+#ifndef IS_ESP
   setPrescaler(0, 1);
   setPrescaler(1, 1);
   setPrescaler(2, 1);
+#endif
 
   calibrate(motor);
   calibrate(motor2);

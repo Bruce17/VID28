@@ -124,7 +124,7 @@ void MotorVID28::stepDown()
 
 void MotorVID28::advance()
 {
-  unsigned int stepsToGo;
+  unsigned int stepsToGo = 0;
 
   // detect stopped state
   if (currentStep==targetStep) {

@@ -1,7 +1,11 @@
 #include <Arduino.h>
-#include <util/atomic.h>
 #include "util.h"
 
+#ifndef IS_ESP
+#include <util/atomic.h>
+#endif
+
+#ifndef IS_ESP
 void setMillis(unsigned long ms)
 {
     extern unsigned long timer0_overflow_count;
@@ -40,3 +44,4 @@ void setPrescaler(int timer, int divisor) {
     TCCR2B = TCCR2B & 0b11111000 | mode;
   }
 }
+#endif
